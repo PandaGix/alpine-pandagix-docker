@@ -1,0 +1,15 @@
+#!/sbin/openrc-run
+#
+# /etc/init.d/guix-daemon
+# =======================
+#
+# OpenRC init script to launch 'guix-daemon', the build daemon for GNU Guix.
+
+GUIX_PROFILE="/var/guix/profiles/per-user/root/current-guix"
+GUIX_BUILD_GRP="guixbuild"
+
+
+command="${GUIX_PROFILE}/bin/guix-daemon"
+command_args="--disable-chroot --build-users-group=${GUIX_BUILD_GRP}"
+command_background=true
+pidfile="/run/${RC_SVCNAME}.pid"
