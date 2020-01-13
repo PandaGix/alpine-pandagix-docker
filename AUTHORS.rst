@@ -16,3 +16,4 @@ form::
 List of copyright holders
 -------------------------
 
+- Jimmy Thrasibule <dev@jimmy.lt>
