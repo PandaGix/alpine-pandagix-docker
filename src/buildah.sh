@@ -92,8 +92,7 @@ buildah run "${ctnr}" -- rm -f "${WORK_D}/${GUIX_ARCHIVE}.sig"
 # Setup Guix profile.
 try buildah run "${ctnr}" -- mkdir --parents "$(dirname "${GUIX_PROFILE}")"
 try buildah run "${ctnr}" -- ln -sf "${GUIX_SYS_PROFILE}" "${GUIX_PROFILE}"
-buildah run "${ctnr}" -- sh -c "echo \"source '${GUIX_PROFILE}/etc/profile'\" > '${PROFILE_D}/guix.sh'" \
-    || exit ${?}
+try buildah copy "${ctnr}" ./scripts/guix.sh "${PROFILE_D}/guix.sh"
 
 # Enable GNU Guix substitutions.
 buildah run "${ctnr}" -- sh -c "'${GUIX_PROFILE}/bin/guix' archive --authorize < '${GUIX_PROFILE}/share/guix/ci.guix.gnu.org.pub'" \
@@ -101,7 +100,7 @@ buildah run "${ctnr}" -- sh -c "'${GUIX_PROFILE}/bin/guix' archive --authorize <
 
 # Make Guix command available system wide (in case profile is not loaded).
 try buildah run "${ctnr}" -- mkdir --parents "${PREFIX_D}/bin"
-try buildah run "${ctnr}" -- ln -sf "${GUIX_PROFILE}/bin/guix" "${PREFIX_D}/bin/guix"
+try buildah run "${ctnr}" -- ln -sf "${GUIX_SYS_PROFILE}/bin/guix" "${PREFIX_D}/bin/guix"
 
 # Create build users.
 try buildah run "${ctnr}" -- addgroup -S "${GUIX_BUILD_GRP}"
