@@ -125,6 +125,7 @@ buildah run "${ctnr}" -- sh -c "source '${GUIX_PROFILE}/etc/profile'
 '${GUIX_PROFILE}/bin/guix-daemon' --build-users-group='${GUIX_BUILD_GRP}' --disable-chroot &
 '${GUIX_PROFILE}/bin/guix' pull ${GUIX_OPTS}                                    \
     && '${GUIX_PROFILE}/bin/guix' package ${GUIX_OPTS} --upgrade                \
+    && '${GUIX_PROFILE}/bin/guix' gc                                            \
     && '${GUIX_PROFILE}/bin/guix' gc --optimize
 " || exit ${?}
 
