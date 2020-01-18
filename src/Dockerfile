@@ -71,8 +71,8 @@ WORKDIR "${WORK_D}"
 RUN wget ${WGET_OPTS} "${GUIX_URL}.sig"                                         \
     && wget ${WGET_OPTS} "${GUIX_URL}"
 
-RUN gpg ${GPG_OPTS} --keyserver ${GPG_KEYSERVER}                                \
-                    --recv-keys ${GUIX_OPENPGP_KEY_ID}                          \
+RUN gpg ${GPG_OPTS} --keyserver "${GPG_KEYSERVER}"                              \
+                    --recv-keys "${GUIX_OPENPGP_KEY_ID}"                        \
     && gpg ${GPG_OPTS} --verify "${GUIX_ARCHIVE}.sig"                           \
     && tar -xJvf "${GUIX_ARCHIVE}" -C /                                         \
     && rm -f "${GUIX_ARCHIVE}"                                                  \
@@ -83,12 +83,12 @@ RUN gpg ${GPG_OPTS} --keyserver ${GPG_KEYSERVER}                                
 # """""""""""""""""
 
 # Setup Guix profile.
-RUN mkdir --parents $(dirname "${GUIX_PROFILE}")                                \
+RUN mkdir --parents "$(dirname "${GUIX_PROFILE}")"                              \
     && ln -sf  "${GUIX_SYS_PROFILE}" "${GUIX_PROFILE}"                          \
     # Enable GNU Guix substitutions.
-    && sh -c "${GUIX_PROFILE}/bin/guix archive --authorize < ${GUIX_PROFILE}/share/guix/ci.guix.gnu.org.pub" \
+    && sh -c "'${GUIX_PROFILE}/bin/guix' archive --authorize < '${GUIX_PROFILE}/share/guix/ci.guix.gnu.org.pub'" \
     # Enable default Guix profile for login shell.
-    && sh -c "echo 'source ${GUIX_PROFILE}/etc/profile' > ${PROFILE_D}/guix.sh" \
+    && sh -c "echo \"source '${GUIX_PROFILE}/etc/profile'\" > '${PROFILE_D}/guix.sh'" \
     # Make Guix command available system wide (in case profile is not loaded).
     && mkdir --parents "${PREFIX_D}/bin"                                        \
     && ln -sf "${GUIX_PROFILE}/bin/guix" "${PREFIX_D}/bin/guix"
@@ -113,7 +113,7 @@ RUN chmod 0755 "${INIT_D}/${GUIX_SVCNAME}"                                      
 # """"""""""""""""
 
 RUN source "${GUIX_PROFILE}/etc/profile"                                        \
-    && sh -c "${GUIX_PROFILE}/bin/guix-daemon --build-users-group='${GUIX_BUILD_GRP}' --disable-chroot &" \
+    && sh -c "'${GUIX_PROFILE}/bin/guix-daemon' --build-users-group='${GUIX_BUILD_GRP}' --disable-chroot &" \
     && "${GUIX_PROFILE}/bin/guix" pull ${GUIX_OPTS}                             \
     && "${GUIX_PROFILE}/bin/guix" package ${GUIX_OPTS} --upgrade                \
     && "${GUIX_PROFILE}/bin/guix" gc --optimize

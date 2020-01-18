@@ -78,7 +78,7 @@ try buildah run "${ctnr}" -- sed -i 's/^#\?rc_sys=".*"/rc_sys="docker"/' /etc/rc
 try buildah run "${ctnr}" -- wget ${WGET_OPTS} "${GUIX_URL}.sig" --output-document="${WORK_D}/${GUIX_ARCHIVE}.sig"
 try buildah run "${ctnr}" -- wget ${WGET_OPTS} "${GUIX_URL}" --output-document="${WORK_D}/${GUIX_ARCHIVE}"
 
-try buildah run "${ctnr}" -- gpg ${GPG_OPTS} --keyserver ${GPG_KEYSERVER} --recv-keys ${GUIX_OPENPGP_KEY_ID}
+try buildah run "${ctnr}" -- gpg ${GPG_OPTS} --keyserver "${GPG_KEYSERVER}" --recv-keys "${GUIX_OPENPGP_KEY_ID}"
 try buildah run "${ctnr}" -- gpg ${GPG_OPTS} --verify "${WORK_D}/${GUIX_ARCHIVE}.sig"
 
 try buildah run "${ctnr}" -- tar -xJvf "${WORK_D}/${GUIX_ARCHIVE}" -C /
@@ -92,10 +92,11 @@ buildah run "${ctnr}" -- rm -f "${WORK_D}/${GUIX_ARCHIVE}.sig"
 # Setup Guix profile.
 try buildah run "${ctnr}" -- mkdir --parents "$(dirname "${GUIX_PROFILE}")"
 try buildah run "${ctnr}" -- ln -sf "${GUIX_SYS_PROFILE}" "${GUIX_PROFILE}"
-try buildah run "${ctnr}" -- sh -c "echo 'source ${GUIX_PROFILE}/etc/profile' > ${PROFILE_D}/guix.sh"
+buildah run "${ctnr}" -- sh -c "echo \"source '${GUIX_PROFILE}/etc/profile'\" > '${PROFILE_D}/guix.sh'" \
+    || exit ${?}
 
 # Enable GNU Guix substitutions.
-buildah run "${ctnr}" -- sh -c "${GUIX_PROFILE}/bin/guix archive --authorize < ${GUIX_PROFILE}/share/guix/ci.guix.gnu.org.pub" \
+buildah run "${ctnr}" -- sh -c "'${GUIX_PROFILE}/bin/guix' archive --authorize < '${GUIX_PROFILE}/share/guix/ci.guix.gnu.org.pub'" \
     || exit ${?}
 
 # Make Guix command available system wide (in case profile is not loaded).
@@ -121,11 +122,11 @@ try buildah run "${ctnr}" -- rc-update add "${GUIX_SVCNAME}" default
 # Packages Upgrade
 # """"""""""""""""
 
-buildah run "${ctnr}" -- sh -c "source ${GUIX_PROFILE}/etc/profile
-${GUIX_PROFILE}/bin/guix-daemon --build-users-group=${GUIX_BUILD_GRP} --disable-chroot &
-${GUIX_PROFILE}/bin/guix pull ${GUIX_OPTS}                                      \
-    && ${GUIX_PROFILE}/bin/guix package ${GUIX_OPTS} --upgrade                  \
-    && ${GUIX_PROFILE}/bin/guix gc --optimize
+buildah run "${ctnr}" -- sh -c "source '${GUIX_PROFILE}/etc/profile'
+'${GUIX_PROFILE}/bin/guix-daemon' --build-users-group='${GUIX_BUILD_GRP}' --disable-chroot &
+'${GUIX_PROFILE}/bin/guix' pull ${GUIX_OPTS}                                    \
+    && '${GUIX_PROFILE}/bin/guix' package ${GUIX_OPTS} --upgrade                \
+    && '${GUIX_PROFILE}/bin/guix' gc --optimize
 " || exit ${?}
 
 
