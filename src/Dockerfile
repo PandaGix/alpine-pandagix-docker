@@ -113,12 +113,12 @@ RUN gpg ${GPG_OPTS} --keyserver "${GPG_KEYSERVER}"                              
 
 # Setup Guix profile.
 RUN mkdir --parents "$(dirname "${GUIX_PROFILE}")"                              \
-    && ln -sf  "${GUIX_SYS_PROFILE}" "${GUIX_PROFILE}"                          \
+    && ln -s "${GUIX_SYS_PROFILE}" "${GUIX_PROFILE}"                            \
     # Enable GNU Guix substitutions.
     && sh -c "'${GUIX_PROFILE}/bin/guix' archive --authorize < '${GUIX_PROFILE}/share/guix/ci.guix.gnu.org.pub'" \
     # Make Guix command available system wide (in case profile is not loaded).
     && mkdir --parents "${PREFIX_D}/bin"                                        \
-    && ln -sf "${GUIX_SYS_PROFILE}/bin/guix" "${PREFIX_D}/bin/guix"
+    && ln -s "${GUIX_SYS_PROFILE}/bin/guix" "${PREFIX_D}/bin/guix"
 
 # Enable default Guix profile for login shell.
 COPY scripts/guix.sh "${PROFILE_D}/guix.sh"
