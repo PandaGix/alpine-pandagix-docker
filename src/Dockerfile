@@ -153,7 +153,7 @@ RUN source "${GUIX_PROFILE}/etc/profile"                                        
 # Image Finalization
 # ^^^^^^^^^^^^^^^^^^
 
-RUN apk del --no-cache ca-certificates gnupg wget
+RUN apk del --no-cache gnupg wget
 
 WORKDIR "${ENTRY_D}"
 CMD "/sbin/init"

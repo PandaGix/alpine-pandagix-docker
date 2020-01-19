@@ -161,7 +161,7 @@ buildah run "${ctnr}" -- sh -c "source '${GUIX_PROFILE}/etc/profile'
 # Image Finalization
 # ^^^^^^^^^^^^^^^^^^
 
-try buildah run "${ctnr}" -- apk del --no-cache ca-certificates gnupg wget
+try buildah run "${ctnr}" -- apk del --no-cache gnupg wget
 
 buildah config --workingdir "${ENTRY_D}" "${ctnr}"
 buildah config --cmd "/sbin/init" "${ctnr}"
