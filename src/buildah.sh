@@ -96,6 +96,12 @@ try buildah run "${ctnr}" -- sed -i '/^tty[0-9]\+:.*:\(re\)\?spawn:/d' /etc/init
 # OpenRC: Define subsystem.
 try buildah run "${ctnr}" -- sed -i 's/^#\?rc_sys=".*"/rc_sys="docker"/' /etc/rc.conf
 
+# Set USER environment variable so Guix can properly set the path to the user's
+# profile.
+#
+# See: https://issues.guix.info/issue/39195
+try buildah config --env USER="root" "${ctnr}"
+
 
 # Guix
 # ^^^^

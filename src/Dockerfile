@@ -83,6 +83,12 @@ ARG WORK_D=/tmp
 # System
 # ^^^^^^
 
+# Set USER environment variable so Guix can properly set the path to the user's
+# profile.
+#
+# See: https://issues.guix.info/issue/39195
+ENV USER="root"
+
 RUN apk add --no-cache ca-certificates gnupg openrc wget                        \
     # OpenRC: Disable login consoles.
     && sed -i '/^tty[0-9]\+:.*:\(re\)\?spawn:/d' /etc/inittab                   \
