@@ -55,7 +55,7 @@ EOF
 ctnr=$(buildah from alpine:latest)
 
 
-GUIX_VERSION="1.0.1"
+GUIX_VERSION="1.1.0"
 GUIX_ARCH="x86_64"
 GUIX_OS="linux"
 GUIX_ARCHIVE="guix-binary-${GUIX_VERSION}.${GUIX_ARCH}-${GUIX_OS}.tar.xz"

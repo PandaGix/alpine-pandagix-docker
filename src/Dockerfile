@@ -54,7 +54,7 @@ RUN echo                                                                        
 FROM alpine:latest AS build
 
 
-ARG GUIX_VERSION=1.0.1
+ARG GUIX_VERSION=1.1.0
 ARG GUIX_ARCH="x86_64"
 ARG GUIX_OS="linux"
 ARG GUIX_ARCHIVE="guix-binary-${GUIX_VERSION}.${GUIX_ARCH}-${GUIX_OS}.tar.xz"
