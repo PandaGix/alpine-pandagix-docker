@@ -65,7 +65,7 @@ ARG GUIX_SYS_PROFILE="/var/guix/profiles/per-user/root/current-guix"
 ARG GUIX_BUILD_GRP="guixbuild"
 ARG GUIX_BUILD_USER="guixbuilder"
 ARG GUIX_MAX_JOBS=10
-ARG GUIX_OPTS="--verbose --verbosity=2"
+ARG GUIX_OPTS="--verbosity=2"
 ARG GUIX_SVCNAME="guix-daemon"
 
 ARG GPG_KEYSERVER="pool.sks-keyservers.net"

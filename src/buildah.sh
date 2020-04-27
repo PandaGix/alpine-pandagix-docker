@@ -66,7 +66,7 @@ GUIX_SYS_PROFILE="/var/guix/profiles/per-user/root/current-guix"
 GUIX_BUILD_GRP="guixbuild"
 GUIX_BUILD_USER="guixbuilder"
 GUIX_MAX_JOBS=10
-GUIX_OPTS="--verbose --verbosity=2"
+GUIX_OPTS="--verbosity=2"
 GUIX_SVCNAME="guix-daemon"
 
 GPG_KEYSERVER="pool.sks-keyservers.net"
