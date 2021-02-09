@@ -1,60 +1,24 @@
 # src/Dockerfile
 # ==============
-#
-# Copying
-# -------
-#
 # Copyright (c) 2020 alpine-guix authors.
-#
 # This file is part of the *alpine-guix* project.
-#
 # alpine-guix is a free software project. You can redistribute it and/or
 # modify if under the terms of the MIT License.
-#
 # This software project is distributed *as is*, WITHOUT WARRANTY OF ANY
 # KIND; including but not limited to the WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE and NONINFRINGEMENT.
-#
 # You should have received a copy of the MIT License along with
 # alpine-guix. If not, see <http://opensource.org/licenses/MIT>.
-#
 
 # Layer 0: Welcome
 # ----------------
 
-FROM alpine:latest AS welcome
-
-
-RUN echo                                                                        \
-    && echo "    ░░░                                     ░░░    "               \
-    && echo "    ░░▒▒░░░░░░░░░               ░░░░░░░░░▒▒░░      "               \
-    && echo "     ░░▒▒▒▒▒░░░░░░░           ░░░░░░░▒▒▒▒▒░        "               \
-    && echo "         ░▒▒▒░░▒▒▒▒▒         ░░░░░░░▒▒░            "               \
-    && echo "               ░▒▒▒▒░       ░░░░░░                 "               \
-    && echo "                ▒▒▒▒▒      ░░░░░░                  "               \
-    && echo "                 ▒▒▒▒▒     ░░░░░                   "               \
-    && echo "                 ░▒▒▒▒▒   ░░░░░                    "               \
-    && echo "                  ▒▒▒▒▒   ░░░░░                    "               \
-    && echo "                   ▒▒▒▒▒ ░░░░░                     "               \
-    && echo "                   ░▒▒▒▒▒░░░░░                     "               \
-    && echo "                    ▒▒▒▒▒▒░░░                      "               \
-    && echo "                     ▒▒▒▒▒▒░                       "               \
-    && echo "     _____ _   _ _    _    _____       _           "               \
-    && echo "    / ____| \ | | |  | |  / ____|     (_)          "               \
-    && echo "   | |  __|  \| | |  | | | |  __ _   _ ___  __     "               \
-    && echo "   | | |_ | . ' | |  | | | | |_ | | | | \ \/ /     "               \
-    && echo "   | |__| | |\  | |__| | | |__| | |_| | |>  <      "               \
-    && echo "    \_____|_| \_|\____/   \_____|\__,_|_/_/\_\     "               \
-    && echo
-
-
 # Layer 1: Build
 # --------------
 
-FROM alpine:latest AS build
+FROM alpine:3.12.3 AS build
 
-
-ARG GUIX_VERSION=1.1.0
+ARG GUIX_VERSION=1.2.0
 ARG GUIX_ARCH="x86_64"
 ARG GUIX_OS="linux"
 ARG GUIX_ARCHIVE="guix-binary-${GUIX_VERSION}.${GUIX_ARCH}-${GUIX_OS}.tar.xz"
@@ -95,6 +59,8 @@ RUN apk add --no-cache ca-certificates gnupg openrc wget                        
     # OpenRC: Define subsystem.
     && sed -i 's/^#\?rc_sys=".*"/rc_sys="docker"/' /etc/rc.conf
 
+# git
+RUN apk add --no-cache git build-base
 
 # Guix
 # ^^^^
