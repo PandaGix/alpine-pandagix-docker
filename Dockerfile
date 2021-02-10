@@ -1,6 +1,7 @@
 # src/Dockerfile
 # ==============
 # Copyright (c) 2020 alpine-guix authors.
+# Copyright (c) 2021 BambooGeek@PandaGix
 # This file is part of the *alpine-guix* project.
 # alpine-guix is a free software project. You can redistribute it and/or
 # modify if under the terms of the MIT License.
