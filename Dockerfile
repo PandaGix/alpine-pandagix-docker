@@ -122,14 +122,17 @@ COPY scripts/channels.scm "${GUIX_CONFIG}/channels.scm"
 # Guix Packages Upgrade
 # """"""""""""""""
 
-RUN source "${GUIX_PROFILE}/etc/profile" \
+RUN cat "${GUIX_CONFIG}/channels.scm"\
+    && source "${GUIX_PROFILE}/etc/profile" \
     && sh -c "'${GUIX_PROFILE}/bin/guix-daemon' --build-users-group='${GUIX_BUILD_GRP}' --disable-chroot &" \
     && "${GUIX_PROFILE}/bin/guix" pull ${GUIX_OPTS} \
-RUN source "$GUIX_PROFILE/etc/profile" \
-    && hash guix
-RUN "${GUIX_PROFILE}/bin/guix" package ${GUIX_OPTS} --upgrade \
+    && source "$GUIX_PROFILE/etc/profile" \
+    && hash guix \
+    && "${GUIX_PROFILE}/bin/guix" package ${GUIX_OPTS} --upgrade \
     && "${GUIX_PROFILE}/bin/guix" gc \
-    && "${GUIX_PROFILE}/bin/guix" gc --optimize
+    && "${GUIX_PROFILE}/bin/guix" gc --optimize \
+    && "${GUIX_PROFILE}/bin/guix" --version \
+    && "${GUIX_PROFILE}/bin/guix" describe
 
 
 # Image Finalization
