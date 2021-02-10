@@ -25,6 +25,7 @@ ARG GUIX_ARCHIVE="guix-binary-${GUIX_VERSION}.${GUIX_ARCH}-${GUIX_OS}.tar.xz"
 ARG GUIX_URL="https://ftp.gnu.org/gnu/guix/${GUIX_ARCHIVE}"
 ARG GUIX_OPENPGP_KEY_ID="3CE464558A84FDC69DB40CFB090B11993D9AEBB5"
 ARG GUIX_PROFILE="/root/.config/guix/current"
+ARG GUIX_CONFIG="/root/.config/guix"
 ARG GUIX_SYS_PROFILE="/var/guix/profiles/per-user/root/current-guix"
 ARG GUIX_BUILD_GRP="guixbuild"
 ARG GUIX_BUILD_USER="guixbuilder"
@@ -60,7 +61,10 @@ RUN apk add --no-cache ca-certificates gnupg openrc wget                        
     && sed -i 's/^#\?rc_sys=".*"/rc_sys="docker"/' /etc/rc.conf
 
 # git
-RUN apk add --no-cache git build-base
+RUN apk add --no-cache git
+
+# build-base
+# RUN apk add --no-cache build-base
 
 # Guix
 # ^^^^
@@ -110,22 +114,28 @@ COPY scripts/guix-daemon "${INIT_D}/${GUIX_SVCNAME}"
 RUN chmod 0755 "${INIT_D}/${GUIX_SVCNAME}"                                      \
     && rc-update add "${GUIX_SVCNAME}" default
 
+# Copy channels.scm for Guix pull
+COPY scripts/channels.scm "${GUIX_CONFIG}/channels.scm"
 
-# Packages Upgrade
+
+# Guix Packages Upgrade
 # """"""""""""""""
 
 RUN source "${GUIX_PROFILE}/etc/profile"                                        \
     && sh -c "'${GUIX_PROFILE}/bin/guix-daemon' --build-users-group='${GUIX_BUILD_GRP}' --disable-chroot &" \
     && "${GUIX_PROFILE}/bin/guix" pull ${GUIX_OPTS}                             \
-    && "${GUIX_PROFILE}/bin/guix" package ${GUIX_OPTS} --upgrade                \
+RUN . "$GUIX_PROFILE/etc/profile"
+    && hash guix
+RUN "${GUIX_PROFILE}/bin/guix" package ${GUIX_OPTS} --upgrade                \
     && "${GUIX_PROFILE}/bin/guix" gc                                            \
     && "${GUIX_PROFILE}/bin/guix" gc --optimize
 
 
 # Image Finalization
 # ^^^^^^^^^^^^^^^^^^
-
-RUN apk del --no-cache gnupg wget
+# keep wget
+# RUN apk del --no-cache gnupg wget
+RUN apk del --no-cache gnupg
 
 WORKDIR "${ENTRY_D}"
 CMD "/sbin/init"
