@@ -126,7 +126,7 @@ RUN cat "${GUIX_CONFIG}/channels.scm"\
     && source "${GUIX_PROFILE}/etc/profile" \
     && sh -c "'${GUIX_PROFILE}/bin/guix-daemon' --build-users-group='${GUIX_BUILD_GRP}' --disable-chroot &" \
     && "${GUIX_PROFILE}/bin/guix" pull ${GUIX_OPTS} \
-    && source "$GUIX_PROFILE/etc/profile" \
+    && source "${GUIX_PROFILE}/etc/profile" \
     && hash guix \
     && "${GUIX_PROFILE}/bin/guix" package ${GUIX_OPTS} --upgrade \
     && "${GUIX_PROFILE}/bin/guix" gc \
