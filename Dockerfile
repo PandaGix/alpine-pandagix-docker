@@ -112,7 +112,7 @@ RUN addgroup -S "${GUIX_BUILD_GRP}"                                             
 
 # Install init script.
 COPY scripts/guix-daemon "${INIT_D}/${GUIX_SVCNAME}"
-RUN chmod 0755 "${INIT_D}/${GUIX_SVCNAME}"                                      \
+RUN chmod 0755 "${INIT_D}/${GUIX_SVCNAME}" \
     && rc-update add "${GUIX_SVCNAME}" default
 
 # Copy channels.scm for Guix pull
@@ -122,13 +122,13 @@ COPY scripts/channels.scm "${GUIX_CONFIG}/channels.scm"
 # Guix Packages Upgrade
 # """"""""""""""""
 
-RUN source "${GUIX_PROFILE}/etc/profile"                                        \
+RUN source "${GUIX_PROFILE}/etc/profile" \
     && sh -c "'${GUIX_PROFILE}/bin/guix-daemon' --build-users-group='${GUIX_BUILD_GRP}' --disable-chroot &" \
-    && "${GUIX_PROFILE}/bin/guix" pull ${GUIX_OPTS}                             \
-RUN . "$GUIX_PROFILE/etc/profile"
+    && "${GUIX_PROFILE}/bin/guix" pull ${GUIX_OPTS} \
+RUN source "$GUIX_PROFILE/etc/profile" \
     && hash guix
-RUN "${GUIX_PROFILE}/bin/guix" package ${GUIX_OPTS} --upgrade                \
-    && "${GUIX_PROFILE}/bin/guix" gc                                            \
+RUN "${GUIX_PROFILE}/bin/guix" package ${GUIX_OPTS} --upgrade \
+    && "${GUIX_PROFILE}/bin/guix" gc \
     && "${GUIX_PROFILE}/bin/guix" gc --optimize
 
 
