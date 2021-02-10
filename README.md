@@ -1,15 +1,15 @@
-alpine-guix
+Alpine-PandaGix-Docker
 ===========
 
-A minimal Docker image based on Alpine Linux with the GNU Guix package
-manager.
+A Docker image based on Alpine Linux, installed the GNU Guix package
+manager, with constomized channels to build PandaGix.
 
 
 Licensing
 ---------
 
 This software project is provided under the licensing terms of the
-MIT License stated in the file ``LICENSE.rst``.
+MIT License stated in the file ``LICENSE.md``.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
