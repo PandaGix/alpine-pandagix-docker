@@ -1,6 +1,7 @@
 Alpine-PandaGix-Docker
 ===========
 Author: BambooGeek@PandaGix
+
 A Docker image based on Alpine Linux, installed the GNU Guix package
 manager, with constomized channels to build PandaGix.
 
