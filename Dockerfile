@@ -116,7 +116,7 @@ RUN chmod 0755 "${INIT_D}/${GUIX_SVCNAME}" \
     && rc-update add "${GUIX_SVCNAME}" default
 
 # Copy channels.scm for Guix pull
-COPY scripts/channels.scm "${GUIX_CONFIG}/channels.scm"
+COPY scripts/channels-a20210219.scm "${GUIX_CONFIG}/channels.scm"
 
 
 # Guix Packages Upgrade
