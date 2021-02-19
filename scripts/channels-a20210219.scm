@@ -10,7 +10,7 @@
            	"BBB0 2DDF 2CEA F6A8 0D1D  E643 A2A0 6DF2 A33A 54FA" ; from guix/channels.scm
 		)))) ; end of this (channel
     (channel
-                (name 'nonguix)
+                (name 'nonguix) ; linux 5.4.98
                 (url "https://git.nju.edu.cn/nju/nonguix.git")
                 (commit "1d58ea1acadba57b34669c8a3f3d9f0de8d339b5")
                 (introduction
