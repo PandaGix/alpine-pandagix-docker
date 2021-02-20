@@ -45,6 +45,8 @@ ARG PROFILE_D=/etc/profile.d
 ARG INIT_D=/etc/init.d
 ARG WORK_D=/tmp
 
+#added to resolve guix substitute problem on nss-certs 
+ARG LC_ALL=en_US.utf8
 
 # System
 # ^^^^^^
@@ -131,6 +133,8 @@ RUN cat "${GUIX_CONFIG}/channels.scm"\
     && "${GUIX_PROFILE}/bin/guix" package ${GUIX_OPTS} --upgrade \
     && "${GUIX_PROFILE}/bin/guix" gc \
     && "${GUIX_PROFILE}/bin/guix" gc --optimize \
+    && "${GUIX_PROFILE}/bin/guix" build linux@5.4.98 \
+    && "${GUIX_PROFILE}/bin/guix" build linux-firmware@20210208 \
     && "${GUIX_PROFILE}/bin/guix" --version \
     && "${GUIX_PROFILE}/bin/guix" describe
 
