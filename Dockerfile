@@ -53,7 +53,7 @@ ARG LC_ALL=en_US.utf8
 # See: https://issues.guix.info/issue/39195
 ENV USER="root"
 
-RUN apk add --no-cache ca-certificates gnupg openrc wget                        \
+RUN apk add --no-cache ca-certificates gnupg openrc wget
 RUN apk add --no-cache git busybox-static jq tar
 
 
