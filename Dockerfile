@@ -135,6 +135,9 @@ RUN cat "${GUIX_CONFIG}/channels.scm"\
     && "${GUIX_PROFILE}/bin/guix" gc --optimize \
     && "${GUIX_PROFILE}/bin/guix" build linux@5.4.98 \
     && "${GUIX_PROFILE}/bin/guix" build linux-firmware@20210208 \
+    && "${GUIX_PROFILE}/bin/guix" install --fallback glibc-utf8-locales \
+    && "${GUIX_PROFILE}/bin/guix" install --fallback nss-certs \
+    && hash guix \
     && "${GUIX_PROFILE}/bin/guix" --version \
     && "${GUIX_PROFILE}/bin/guix" describe
 
