@@ -17,7 +17,7 @@
 # Layer 1: Build
 # --------------
 
-FROM pandagix/alpine-pandagix-docker:5.10.16-linux AS build
+FROM pandagix/alpine-pandagix-docker:2021.0219 AS build
 
 ARG GUIX_VERSION=1.2.0
 ARG GUIX_ARCH="x86_64"
@@ -45,7 +45,7 @@ ARG PROFILE_D=/etc/profile.d
 ARG INIT_D=/etc/init.d
 ARG WORK_D=/tmp
 
-#added to resolve guix substitute problem on nss-certs 
+#added to resolve guix substitute problem on nss-certs
 ARG LC_ALL=en_US.utf8
 
 # Set USER environment variable so Guix can properly set the path to the user's
@@ -66,14 +66,19 @@ RUN echo $LC_ALL \
     #&& "${GUIX_PROFILE}/bin/guix" pull ${GUIX_OPTS} \
     #&& source "${GUIX_PROFILE}/etc/profile" \
     && hash guix \
+    && "${GUIX_PROFILE}/bin/guix" package ${GUIX_OPTS} --upgrade \
+    && "${GUIX_PROFILE}/bin/guix" gc \
+    && "${GUIX_PROFILE}/bin/guix" gc --optimize \
+    && "${GUIX_PROFILE}/bin/guix" install --fallback glibc-utf8-locales \
+    && "${GUIX_PROFILE}/bin/guix" install --fallback nss-certs \
     && export GUIX_LOCPATH="$HOME/.guix-profile/lib/locale" \
     && echo $GUIX_LOCPATH \
     && source "${GUIX_PROFILE}/etc/profile" \
     && hash guix \
     && "${GUIX_PROFILE}/bin/guix" --version \
     && "${GUIX_PROFILE}/bin/guix" build --fallback zfs@2.0.3 \
-    #&& "${GUIX_PROFILE}/bin/guix" build --fallback linux@5.10.16 \
-    #&& "${GUIX_PROFILE}/bin/guix" build --fallback linux-firmware@20210208 \
+    && "${GUIX_PROFILE}/bin/guix" build --fallback linux@5.4.98 \
+    && "${GUIX_PROFILE}/bin/guix" build --fallback linux-firmware@20210208 \
     && "${GUIX_PROFILE}/bin/guix" describe 
 
 
