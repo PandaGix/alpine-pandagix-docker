@@ -71,7 +71,7 @@ RUN echo $LC_ALL \
     && source "${GUIX_PROFILE}/etc/profile" \
     && hash guix \
     && "${GUIX_PROFILE}/bin/guix" --version \
-    && "${GUIX_PROFILE}/bin/guix" build --fallback zfs@2.0.1 \
+    && "${GUIX_PROFILE}/bin/guix" build --fallback zfs@2.0.3 \
     #&& "${GUIX_PROFILE}/bin/guix" build --fallback linux@5.10.16 \
     #&& "${GUIX_PROFILE}/bin/guix" build --fallback linux-firmware@20210208 \
     && "${GUIX_PROFILE}/bin/guix" describe 
