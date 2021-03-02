@@ -72,11 +72,15 @@ RUN echo $LC_ALL \
     && hash guix \
     && "${GUIX_PROFILE}/bin/guix" --version \
     #&& "${GUIX_PROFILE}/bin/guix" download https://geant4-data.web.cern.ch/releases/geant4.10.07.p01.tar.gz \
-    && "${GUIX_PROFILE}/bin/guix" download https://geant4-data.web.cern.ch/datasets/G4NDL.4.6.tar.gz \
-    && "${GUIX_PROFILE}/bin/guix" download https://geant4-data.web.cern.ch/datasets/G4EMLOW.7.13.tar.gz \
+    && "${GUIX_PROFILE}/bin/guix" download https://geant4-data.web.cern.ch/datasets/G4PhotonEvaporation.5.7.tar.gz \
+    && "${GUIX_PROFILE}/bin/guix" download https://geant4-data.web.cern.ch/datasets/G4RadioactiveDecay.5.6.tar.gz \
+    && "${GUIX_PROFILE}/bin/guix" download https://geant4-data.web.cern.ch/datasets/G4PARTICLEXS,3.1.1.tar.gz \
+    && "${GUIX_PROFILE}/bin/guix" download https://geant4-data.web.cern.ch/datasets/G4ABLA.3.1.tar.gz \
+    && "${GUIX_PROFILE}/bin/guix" download https://geant4-data.web.cern.ch/datasets/G4INCL.1.0.tar.gz \
+    && "${GUIX_PROFILE}/bin/guix" download https://geant4-data.web.cern.ch/datasets/G4PII.1.3.tar.gz \
+    && "${GUIX_PROFILE}/bin/guix" download https://geant4-data.web.cern.ch/datasets/G4ENSDFSTATE.2.3.tar.gz \
     && "${GUIX_PROFILE}/bin/guix" describe 
 
 
 WORKDIR "${ENTRY_D}"
 CMD "/sbin/init"
-
