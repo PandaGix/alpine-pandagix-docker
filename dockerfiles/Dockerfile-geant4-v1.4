@@ -74,7 +74,7 @@ RUN echo $LC_ALL \
     ##&& "${GUIX_PROFILE}/bin/guix" download https://geant4-data.web.cern.ch/releases/geant4.10.07.p01.tar.gz \
     ##&& "${GUIX_PROFILE}/bin/guix" download https://geant4-data.web.cern.ch/datasets/G4RealSurface.2.2.tar.gz \
     ##&& "${GUIX_PROFILE}/bin/guix" download https://geant4-data.web.cern.ch/datasets/G4TENDL.1.3.2.tar.gz \
-    && ls /gnu/store/ | grep *-G4*.tar.gz \
+    && ls /gnu/store/ | grep G4 \
     && "${GUIX_PROFILE}/bin/guix" describe 
 
 
